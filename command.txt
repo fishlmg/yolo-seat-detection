@@ -1,0 +1,14 @@
+#scp -P 26030 D:\Library_seat_query\detection\detection.yaml root@<GPU_SERVER>:/root
+
+
+yolo detect train data=detection.yaml model=yolo11n.pt epochs=100 imgsz=640
+cp -r /mnt/yolo11n.pt /root/
+cp -r /mnt/datasets ~
+cp -r /mnt/detection.yaml ~
+
+
+#加速
+Downloading https://ultralytics.com/assets/Arial.ttf to '/root/.config/Ultralytics/Arial.ttf'...
+cp /mnt/Arial.ttf /root/.config/Ultralytics/Arial.ttf
+
+yolo detect train data=detection.yaml model=yolo11n.pt epochs=100 imgsz=640

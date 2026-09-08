@@ -1,0 +1,22 @@
+    Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size
+    278/300       2.8G     0.9502     0.6033      1.118         32        640: 100%|██████████| 271/271 [00:47<00:00,  5.65it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 14/14 [00:01<00:00,  7.87it/s]
+                   all        425       2008      0.881      0.892      0.916      0.472
+EarlyStopping: Training stopped early as no improvement observed in last 100 epochs. Best results observed at epoch 178, best model saved as best.pt.
+To update EarlyStopping(patience=100) pass a new patience value, i.e. `patience=300` or use `patience=0` to disable EarlyStopping.
+
+278 epochs completed in 3.881 hours.
+Optimizer stripped from runs/detect/train3/weights/last.pt, 5.5MB
+Optimizer stripped from runs/detect/train3/weights/best.pt, 5.5MB
+
+Validating runs/detect/train3/weights/best.pt...
+Ultralytics 8.3.31 🚀 Python-3.10.12 torch-2.0.1+cu118 CUDA:0 (Tesla P100-SXM2-16GB, 16281MiB)
+YOLO11n summary (fused): 238 layers, 2,582,542 parameters, 0 gradients, 6.3 GFLOPs
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95):  21%|██▏       | 3/14 [00:03<00:13,  1.24s/it]WARNING ⚠️ NMS time limit 3.600s exceeded
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 14/14 [00:10<00:00,  1.39it/s]
+                   all        425       2008      0.885      0.886      0.905      0.471
+              occupied        285       1206      0.875      0.889      0.906      0.463
+             available        348        802      0.895      0.883      0.905      0.478
+Speed: 0.3ms preprocess, 1.8ms inference, 0.0ms loss, 10.0ms postprocess per image
+Results saved to runs/detect/train3
+💡 Learn more at https://docs.ultralytics.com/modes/train

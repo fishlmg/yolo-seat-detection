@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+venv/
+.venv/
+
+# 环境变量与密钥
+.env
+.env.*
+
+# 模型权重（保留在本地，不入库）
+*.pt
+*.onnx
+*.pth
+*.pkl
+
+# 数据集与训练输出
+data/
+result/
+runs/
+yolov11/train4/
+
+# 压缩包
+*.zip
+*.rar
+
+.DS_Store
