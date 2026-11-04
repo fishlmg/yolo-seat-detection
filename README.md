@@ -6,7 +6,9 @@
 
 使用 Ultralytics YOLO 系列（v8 / v11 / v12 / YOLO-World）训练**图书馆座位占用检测模型**，并完成从云 GPU 训练到树莓派/摄像头端推理部署、结果上报的完整链路。
 
-> 本仓库与 [library-seat-system](https://github.com/fishlmg/library-seat-system) 配套：这里负责"检测"，那里负责"服务与展示"。
+English: Train a library seat-occupancy detector with Ultralytics YOLO, run it on a camera or Raspberry Pi, and report occupied / available counts to the companion service.
+
+> 本仓库与 [library-seat-system](https://github.com/fishlmg/library-seat-system) 配套：这里负责「检测」，那里负责「服务与展示」。
 
 ## ✨ 特性
 
@@ -21,19 +23,22 @@
 ```
 .
 ├── detection.yaml                # 训练数据集路径与类别配置
-├── command.txt                   # 云 GPU 训练命令记录（已脱敏）
-├── show.txt                      # 训练日志（mAP 等指标）
-├── Arial.ttf                     # YOLO 绘图字体（离线环境备用）
+├── requirements.txt
+├── assets/
+│   └── Arial.ttf                 # Ultralytics 绘图字体（离线环境备用）
+├── docs/
+│   ├── command.txt               # 云 GPU 训练命令记录（已脱敏）
+│   └── show.txt                  # 训练日志（mAP 等指标）
 │
 ├── YOLOv8-world/
 │   ├── test.py                   # YOLOv8-World 开放词汇（open-vocabulary）检测
-│   └── test/                     # 测试图片
+│   └── test/                     # 测试原图（未标注）
 │
 ├── yolov11/
 │   ├── code/
 │   │   ├── camera.py             # 摄像头实时座位检测
 │   │   └── test.py
-│   └── command.txt               # v11 训练命令
+│   └── command.txt               # 与 docs/command.txt 相同的 v11 训练命令
 │
 ├── test/24_11_14/
 │   ├── camera.py                 # 摄像头检测
@@ -54,7 +59,7 @@ pip install -r requirements.txt
 **1. 训练（云 GPU）**
 
 ```bash
-# 命令参考 command.txt
+# 命令参考 docs/command.txt
 yolo detect train data=detection.yaml model=yolo11n.pt epochs=100 imgsz=640
 ```
 
@@ -80,7 +85,7 @@ python test/24_11_14/url.py
 
 ## 📊 训练记录
 
-`show.txt` 记录了一次完整训练：278 epochs（EarlyStopping，patience=100），最佳模型出现在 epoch 178，mAP50 达到 0.916。
+[docs/show.txt](docs/show.txt) 记录了一次完整训练：跑到 epoch 278 后早停（patience=100），最佳权重在 epoch 178。停训那一轮的验证 mAP50 为 0.916；复核 `best.pt` 时，425 张图、2008 个实例上的 mAP50 为 0.905（occupied 0.906 / available 0.905）。PR 曲线和权重在本地 `result/`（Ultralytics 默认还写在 `runs/detect/`），没有放进仓库。
 
 ## 📦 依赖
 
@@ -92,8 +97,16 @@ ultralytics、OpenCV、requests —— 详见 [requirements.txt](requirements.tx
 
 ## 📝 说明
 
-预训练权重、自训练权重（`*.pt`）、数据集（`data/`）与训练结果（`result/`）体积较大，已通过 `.gitignore` 排除，仅保留在本地。
+预训练权重、自训练权重（`*.pt`）、数据集（`data/`）与训练结果（`result/`，含 PR 曲线）体积较大，已通过 `.gitignore` 排除，仅保留在本地。仓库里的 `YOLOv8-world/test/` 与 `yolov11/code/013.jpg` 是推理用原图，不是画框后的效果图。
+
+`assets/Arial.ttf` 是 Ultralytics 画图时用的 Arial，留给不能当场下载字体的 GPU 机器。训练代码不读取这个仓库路径；离线时按 [docs/command.txt](docs/command.txt) 把它复制到 `~/.config/Ultralytics/Arial.ttf`。
+
+## 🔗 相关项目
+
+- [library-seat-system](https://github.com/fishlmg/library-seat-system)：座位查询服务与网页展示。本仓库负责占用检测，并把 occupied / available 数量上报过去。
 
 ## 📄 许可证
 
 [MIT License](LICENSE)
+
+作者：[fishlmg](https://github.com/fishlmg)
